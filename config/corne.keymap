@@ -10,15 +10,17 @@
 #include <dt-bindings/zmk/bt.h>
 #define _BT_SEL_KEYS_ &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_CLR
 
+// Layers
 #define DEF 0
-#define NAV 1
-#define FN 2
+#define GAME 1
+#define NAV 2
 #define NUM 3
-#define SYS 4
-#define UC 5
-#define MOUSE 6
+#define FN 4
+#define SYS 5
+#define UC 6
+#define MOUSE 7
 
-// #include "combos.dtsi"  // requires layer aliases
+#include "combos.dtsi"  // requires layer aliases
 // #include "mouse.dtsi"
 
 #define XXX &none
@@ -207,143 +209,53 @@ ZMK_MACRO(win_sleep,
 
 // misc aliases
 #define CANCEL      &kp K_CANCEL             // cancel caps-word, num-word and smart-mouse
-#define DSK_PREV    &hmr LCTRL LG(LC(LEFT))   // previous desktop
-#define DSK_NEXT    &hmr LALT LG(LC(RIGHT)) // next     desktop
+#define DSK_PREV    &hmr LCTRL LG(LC(LEFT))  // previous desktop
+#define DSK_NEXT    &hmr LALT LG(LC(RIGHT))  // next     desktop
 #define PIN_WIN     &kp LG(LC(LS(Q)))        // pin window across desktops
 #define PIN_APP     &kp LG(LC(LS(A)))        // pin application across desktops
 #define DSK_MGR     &kp LA(GRAVE)            // desktop manager
 #define VOL_DOWN    &hmr RSHFT C_VOL_DN
 
 
+
+ZMK_MACRO(bt_sel_0,
+    wait-ms = <0>;
+    tap-ms = <5>;
+    bindings = <&bt BT_SEL 0  &to 0>;
+)
+ZMK_MACRO(bt_sel_1,
+    wait-ms = <0>;
+    tap-ms = <5>;
+    bindings = <&bt BT_SEL 1  &to 1>;
+)
+
 /* Keymap */
 
- / {
-     keymap {
-         compatible = "zmk,keymap";
- 
-         default_layer {
-             // -----------------------------------------------------------------------------------------
-             // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
-             // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-             // | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
-             //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT + BKSP |
- 
-             display-name = "Base";
-             bindings = <
- &kp TAB    &kp Q  &kp W  &kp E     &kp R  &kp T        &kp Y    &kp U  &kp I          &kp O    &kp P     &kp BSPC
- &kp LCTRL  &kp A  &kp S  &kp D     &kp F  &kp G        &kp H    &kp J  &kp K          &kp L    &kp SEMI  &kp SQT
- &kp LSHFT  &kp Z  &kp X  &kp C     &kp V  &kp B        &kp N    &kp M  &kp COMMA      &kp DOT  &kp FSLH  &kp ESC
-                          &kp LGUI  &mo 1  &kp SPACE    &kp RET  &mo 2  &mt RALT BSPC
-             >;
-         };
- 
-         lower_layer {
-             // -----------------------------------------------------------------------------------------
-             // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
-             // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-             // | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
-             //                    | GUI |     | SPC |   | ENT |     |  ALT + BKSP |
- 
-             display-name = "Lower";
-             bindings = <
- &kp TAB     &kp N1        &kp N2        &kp N3        &kp N4        &kp N5          &kp N6    &kp N7    &kp N8         &kp N9     &kp N0  &kp BSPC
- &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp LEFT  &kp DOWN  &kp UP         &kp RIGHT  ___  ___
- &kp LSHFT   ___        ___        ___        ___        ___          ___    ___    ___         ___     ___  ___
-                                         &kp LGUI      ___        &kp SPACE       &kp RET   ___    &mt RALT BSPC
-             >;
-         };
- 
-         raise_layer {
-             // -----------------------------------------------------------------------------------------
-             // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
-             // | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-             // | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
-             //                    | GUI |     | SPC |   | ENT |     | ALT + BKSP |
- 
-             display-name = "Raise";
-             bindings = <
- &kp TAB    &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &kp BSPC
- &kp LCTRL  ___    ___  ___    ___    ___       &kp MINUS  &kp EQUAL  &kp LBKT         &kp RBKT  &kp BSLH  &kp GRAVE
- &kp LSHFT  ___    ___  ___    ___    ___       &kp UNDER  &kp PLUS   &kp LBRC         &kp RBRC  &kp PIPE  &kp TILDE
-                              &kp LGUI  ___    &kp SPACE    &kp RET    ___     &mt RALT BSPC
-             >;
-         };
- 
-         base {
-             bindings = <
- ___  &kp Q    &kp W           &kp E        &kp R             &kp T        &kp Y      &kp U              &kp I          &kp O            &kp P       ___
- ___  &kp A    &mt LEFT_ALT S  &mt LCTRL D  &mt LEFT_SHIFT F  &kp G        &kp H      &mt RIGHT_SHIFT J  &mt RCTRL K    &mt RIGHT_ALT L  &kp SEMI    ___
- ___  &lt 6 Z  &kp X           &kp C        &kp V             &kp B        &kp N      &kp M              &kp COMMA      &kp DOT          &lt 6 FSLH  ___
-                                  &lt 7 ESC    &lt 4 SPACE       &lt 5 TAB    &lt 9 RET  &lt 8 BACKSPACE    &lt 10 DELETE
-             >;
-         };
- 
-         nav {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
- 
-             label = "Nav";
-         };
- 
-         mouse {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
-         };
- 
-         button {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
-         };
- 
-         media {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
-         };
- 
-         num {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
-         };
- 
-         sym {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
-         };
- 
-         fun {
-             bindings = <
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
- ___  ___  ___  ___  ___  ___    ___  ___  ___  ___  ___  ___
-                         ___  ___  ___    ___  ___  ___
-             >;
-         };
-     };
- };
+ZMK_LAYER(Base,
+    &kp TAB       &kp Q        &kp W        &kp E           &kp R        &kp T             &kp Y    &kp U          &kp I           &kp O         &kp P             &kp BSPC
+    &mt LCTRL ESC &hml LGUI A  &hml LALT S  &hml LCTRL D    &hml LSHFT F &kp G             &kp H    &hmr RSHFT J   &hmr LCTRL K    &hmr LALT L   &hmr LGUI SEMI    &kp SQT
+    &kp LSHFT     &kp Z        &kp X        &kp C           &kp V        &kp B             &kp N    &kp M          &kp COMMA       &kp DOT       &kp FSLH          &kp ESC
+                                            &kp LGUI        &mo NAV      &kp SPACE         &kp RET  &mo NUM        &mt RALT BSPC
+)
+ZMK_LAYER(Game,
+    &kp TAB    &kp Q  &kp W  &kp E     &kp R    &kp T        &kp Y    &kp U    &kp I          &kp O    &kp P     &kp BSPC
+    &kp LCTRL  &kp A  &kp S  &kp D     &kp F    &kp G        &kp H    &kp J    &kp K          &kp L    &kp SEMI  &kp SQT
+    &kp LSHFT  &kp Z  &kp X  &kp C     &kp V    &kp B        &kp N    &kp M    &kp COMMA      &kp DOT  &kp FSLH  &kp ESC
+                             &kp LGUI  &mo NAV  &kp SPACE    &kp RET  &mo NUM  &mt RALT BSPC
+)
+ZMK_LAYER(Lower,
+    &kp TAB     &kp N1        &kp N2        &kp N3        &kp N4        &kp N5          &kp N6    &kp N7    &kp N8         &kp N9     &kp N0  &kp BSPC
+    ___         &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp LEFT  &kp DOWN  &kp UP         &kp RIGHT  ___     ___
+    &kp LSHFT   ___           ___           ___           ___           ___             ___       ___       ___            ___        ___     ___
+                              &kp LGUI      ___           &kp SPACE     &kp RET         ___       &mt RALT BSPC
+)
+
+ZMK_LAYER(Raise,
+    &kp TAB    &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS   &kp KP_MULTIPLY  &kp LPAR  &kp RPAR  &kp BSPC
+    &kp LCTRL  ___    ___  ___    ___    ___       &kp MINUS  &kp EQUAL  &kp LBKT         &kp RBKT  &kp BSLH  &kp GRAVE
+    &kp LSHFT  ___    ___  ___    ___    ___       &kp UNDER  &kp PLUS   &kp LBRC         &kp RBRC  &kp PIPE  &kp TILDE
+                                &kp LGUI  ___    &kp SPACE    &kp RET    ___     &mt RALT BSPC
+)
 
 // /* use 5-column layout for Zen */
 // ZMK_APPLY_MATRIX_TRANSFORM(five_column_transform)

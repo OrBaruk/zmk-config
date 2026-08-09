@@ -26,12 +26,18 @@ manifest:
       url-base: https://github.com/urob
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: m165437 # Display gem
+      url-base: https://github.com/M165437 # Display gem
 
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: 0331b7d16e80954b807917f9323e59ffc1e3b626 # main (4/19/2026)
       import: app/west.yml
+
+    - name: nice-view-gem 
+      remote: m165437 
+      revision: main
 
     # ZMK modules
     - name: zmk-adaptive-key

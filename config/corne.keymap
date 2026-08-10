@@ -1,25 +1,6 @@
 #define CONFIG_WIRELESS
 #include "zmk-helpers/key-labels/42.h"
 #include "base.keymap"
-#include "zmk-helpers/unicode-chars/portuguese.dtsi"
-
-// Windows sleep key
-ZMK_MACRO(win_sleep,
-    wait-ms = <500>;
-    tap-ms = <50>;
-    bindings = <&kp LG(X) &kp U &kp S>;
-)
-
-ZMK_MACRO(bt_sel_0,
-    wait-ms = <0>;
-    tap-ms = <5>;
-    bindings = <&bt BT_SEL 0  &to 0>;
-)
-ZMK_MACRO(bt_sel_1,
-    wait-ms = <0>;
-    tap-ms = <5>;
-    bindings = <&bt BT_SEL 1  &to 1>;
-)
 
 /* Keymap */
 

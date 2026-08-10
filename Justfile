@@ -67,12 +67,29 @@ clean-nix:
     nix-collect-garbage --delete-old
 
 # parse & plot keymap
-draw: _check_yq_version
+draw target='corne': _check_yq_version
     #!/usr/bin/env bash
     set -euo pipefail
-    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/corne.keymap" --virtual-layers Combos >"{{ draw }}/corne.yaml"
-    yq -Yi '.combos.[].l = ["Combos"]' "{{ draw }}/corne.yaml"
-    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/corne.yaml" >"{{ draw }}/base.svg"
+
+    if [[ "{{ target }}" == "all" ]]; then
+        for keyboard in corne lily58; do
+            just draw "$keyboard"
+        done
+        exit 0
+    fi
+
+    case "{{ target }}" in
+        corne|lily58)
+            ;;
+        *)
+            echo "Unsupported keyboard target '{{ target }}'. Choose 'corne', 'lily58', or 'all'." >&2
+            exit 1
+            ;;
+    esac
+
+    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/{{ target }}.keymap" --virtual-layers Combos >"{{ draw }}/{{ target }}.yaml"
+    yq -Yi '.combos.[].l = ["Combos"]' "{{ draw }}/{{ target }}.yaml"
+    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/{{ target }}.yaml" >"{{ draw }}/{{ target }}.svg"
 
     jq_expr='
         def extract_label: if type == "string" then . else .t end;
@@ -95,9 +112,9 @@ draw: _check_yq_version
         } |
         .combos = [.combos[] | .l = ["Combos"]]
     '
-    yq -y "$jq_expr" "{{ draw }}/base.yaml" >"{{ draw }}/overview.yaml"
-    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/overview.yaml" >"{{ draw }}/overview.svg"
-    sed -i '/<text.*class="label"/d' "{{ draw }}/overview.svg"
+    yq -y "$jq_expr" "{{ draw }}/{{ target }}.yaml" >"{{ draw }}/overview-{{ target }}.yaml"
+    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/overview-{{ target }}.yaml" >"{{ draw }}/overview-{{ target }}.svg"
+    sed -i '/<text.*class="label"/d' "{{ draw }}/overview-{{ target }}.svg"
 
 # flash firmware for matching targets
 flash expr: (build expr)

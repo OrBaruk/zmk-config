@@ -1,0 +1,118 @@
+layout:
+  zmk_keyboard: corne
+layers:
+  Base:
+    - t: Tab
+    - t: Q
+    - t: W
+    - t: E
+    - t: R
+    - t: T
+    - t: Y
+    - t: U
+    - t: I
+    - t: O
+    - t: P
+    - t: Bspc
+    - t: Esc
+      h: Ctrl
+    - t: A
+      h: Gui
+    - t: S
+      h: Alt
+    - t: D
+      h: Ctrl
+    - t: F
+      h: Shift
+    - t: G
+    - t: H
+    - t: J
+      h: Shift
+    - t: K
+      h: Ctrl
+    - t: L
+      h: Alt
+    - t: ;
+      h: Gui
+    - t: ''''
+    - t: Shift
+    - t: Z
+    - t: X
+    - t: C
+    - t: V
+    - t: B
+    - t: N
+    - t: M
+    - t: ','
+    - t: .
+    - t: /
+    - t: Esc
+    - t: Gui
+    - t: Lower
+    - t: Spc
+    - t: Enter
+    - t: Raise
+    - t: Bspc
+      h: Alt
+  Combos:
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+    - ''
+combos:
+  - p:
+      - 11
+      - 23
+      - 35
+    k:
+      t: Game
+      h: toggle
+    l:
+      - Combos
+  - p:
+      - 11
+      - 23
+      - 35
+    k:
+      t: Base
+      h: toggle
+    l:
+      - Combos
